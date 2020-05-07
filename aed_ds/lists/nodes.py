@@ -16,12 +16,12 @@ class SingleListNode:
         self.next_node = next_node
 
 class DoubleListNode(SingleListNode):
-    def __init__(self, element, next_node, previous):
-        SingleListNode.__init__(element, next_node)
-        self.previous = previous
+    def __init__(self, element, next_node, previous_node):
+        SingleListNode.__init__(self, element, next_node)
+        self.previous_node = previous_node
     
     def get_previous(self):
-        return self.previous
+        return self.previous_node
     
-    def set_previous(self, previous):
-        self.previous = previous
+    def set_previous(self, previous_node):
+        self.previous_node = previous_node
