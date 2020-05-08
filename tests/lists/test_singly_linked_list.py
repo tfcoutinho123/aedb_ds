@@ -1,7 +1,8 @@
 import unittest
 
-from aed_ds.lists.singly_linked_list import SinglyLinkedList
 from aed_ds.exceptions import EmptyListException, InvalidPositionException
+from aed_ds.lists.singly_linked_list import SinglyLinkedList
+from aed_ds.lists.singly_linked_list_iterator import SinglyLinkedListIterator
 
 class TestSinglyLinkedList(unittest.TestCase):
     def setUp(self):
@@ -12,7 +13,7 @@ class TestSinglyLinkedList(unittest.TestCase):
             self.list.insert_last(f"element {i+1}")
     
     def remove_elements(self, quantity):
-        for i in range(quantity):
+        for _ in range(quantity):
             self.list.remove_last()
 
     def test_is_empty(self):
@@ -60,7 +61,7 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.list.insert_first("element")
         self.assertEqual(self.list.get_first(), "element")
 
-    def test_insert_flast(self):
+    def test_insert_last(self):
         self.list.insert_first("element")
         self.assertEqual(self.list.get_last(), "element")
         self.list.make_empty()
@@ -91,5 +92,28 @@ class TestSinglyLinkedList(unittest.TestCase):
             self.list.remove(6)
         self.assertEqual(self.list.remove(0), "element 1")
 
-    def test_make_empty(self):pass
-    def test_iterator(self):pass
+    def test_make_empty(self):
+        self.add_elements(5)
+        self.assertFalse(self.list.is_empty())
+        self.list.make_empty()
+        self.assertTrue(self.list.is_empty())
+        with self.assertRaises(EmptyListException):
+            self.list.get_last()
+        with self.assertRaises(EmptyListException):
+            self.list.get_first()
+
+    def test_iterator(self):
+        with self.assertRaises(EmptyListException):
+            iterator = self.list.iterator()
+        self.add_elements(5)
+        iterator = self.list.iterator()
+        for i in range(0, self.list.size()):
+            self.assertEqual(self.list.get(i), iterator.next())
+        self.list.remove_first()
+        iterator = self.list.iterator()
+        for i in range(0, self.list.size()):
+            self.assertEqual(self.list.get(i), iterator.next())
+        self.remove_elements(4)
+        with self.assertRaises(EmptyListException):
+            iterator = self.list.iterator()       
+

@@ -1,5 +1,5 @@
-from tad_iterator import Iterator
-import exceptions
+from .tad_iterator import Iterator
+from ..exceptions import NoSuchElementException  
 
 class SinglyLinkedListIterator(Iterator):
     def __init__(self, position):
@@ -18,6 +18,8 @@ class SinglyLinkedListIterator(Iterator):
             element = self.position.get_element()
             self.position = self.position.get_next()
             return element
+        else:
+            return NoSuchElementException()
 
     # Restarts the iteration. After rewind, if the iteration is not empty, next will return the first element in the iteration.
     def rewind(self): 
