@@ -116,7 +116,7 @@ class SinglyLinkedList(List):
             first_node.set_next(None)
             self.count -= 1
             return first_node.get_element()
-        if self.count == 0:
+        if self.count == 1:
             self.make_empty()       
 
     # Removes and returns the element at the last position in the list.
@@ -133,7 +133,7 @@ class SinglyLinkedList(List):
             self.tail = current_node
             self.count -= 1
             return last_node.get_element()
-        elif self.count == 0:
+        elif self.count == 1:
             self.make_empty()
 
     # Removes and returns the element at the specified position in the list.
@@ -172,7 +172,6 @@ class SinglyLinkedList(List):
         if self.size() == 0:
             raise EmptyListException()
         else:               
-            node = self.head
-            iterator = SinglyLinkedListIterator(node)
+            iterator = SinglyLinkedListIterator(self.head)
             return iterator
      
