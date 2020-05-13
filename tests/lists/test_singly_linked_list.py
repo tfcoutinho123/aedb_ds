@@ -91,5 +91,20 @@ class TestSinglyLinkedList(unittest.TestCase):
             self.list.remove(6)
         self.assertEqual(self.list.remove(0), "element 1")
 
-    def test_make_empty(self):pass
-    def test_iterator(self):pass
+    def test_make_empty(self):
+        self.add_elements(3)
+        self.list.make_empty()
+        self.assertEqual(self.list.is_empty(), True)
+        self.assertEqual(self.list.size(), 0)
+
+    def test_iterator(self):
+        iterator = self.list.iterator()
+        with self.assertRaises(NoSuchElementException):
+            iterator.next()
+        self.add_elements(6)        
+        node_elements = []
+        iterator2 = self.list.iterator()
+        while iterator2.has_next():
+            node_elements.append(iterator2.next())
+        self.assertEqual(node_elements, ["element 1", "element 2", "element 3", "element 4", "element 5", "element 6"])
+
