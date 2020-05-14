@@ -151,4 +151,4 @@ class DoublyLinkedList(SinglyLinkedList):
     
     # Returns an iterator of the elements in the list (in proper sequence).
     def iterator(self):
-        return DoublyLinkedListIterator(self.head, self.tail)
+        return DoublyLinkedListIterator(self)

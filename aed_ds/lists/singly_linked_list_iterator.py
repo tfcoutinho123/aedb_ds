@@ -2,8 +2,8 @@ from .tad_iterator import Iterator
 from ..exceptions import NoSuchElementException  
 
 class SinglyLinkedListIterator(Iterator):
-    def __init__(self, singly_linked_list):
-        self.singly_linked_list = singly_linked_list
+    def __init__(self, linked_list):
+        self.linked_list = linked_list
         self.position = None
         self.rewind()
 
@@ -24,7 +24,7 @@ class SinglyLinkedListIterator(Iterator):
 
     # Restarts the iteration. After rewind, if the iteration is not empty, next will return the first element in the iteration.
     def rewind(self): 
-        if self.singly_linked_list.is_empty():
+        if self.linked_list.is_empty():
             self.position = None
         else:
-            self.position = self.singly_linked_list.get_head()
+            self.position = self.linked_list.get_head()
