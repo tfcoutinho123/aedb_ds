@@ -8,6 +8,9 @@ class SinglyLinkedList(List):
         self.head = None
         self.tail = None
         self.count = 0
+    
+    def get_head(self):
+        return self.head
 
     # Returns tru e iff thelist contains no elements.
     def is_empty(self):
@@ -169,9 +172,5 @@ class SinglyLinkedList(List):
 
     # Returns an iterator of the elements in the list (in proper sequence).
     def iterator(self):
-        if self.size() == 0:
-            raise EmptyListException()
-        else:               
-            iterator = SinglyLinkedListIterator(self.head)
-            return iterator
+        return SinglyLinkedListIterator(self)
      

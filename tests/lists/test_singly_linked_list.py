@@ -103,8 +103,6 @@ class TestSinglyLinkedList(unittest.TestCase):
             self.list.get_first()
 
     def test_iterator(self):
-        with self.assertRaises(EmptyListException):
-            iterator = self.list.iterator()
         self.add_elements(5)
         iterator = self.list.iterator()
         for i in range(0, self.list.size()):
@@ -114,6 +112,4 @@ class TestSinglyLinkedList(unittest.TestCase):
         for i in range(0, self.list.size()):
             self.assertEqual(self.list.get(i), iterator.next())
         self.remove_elements(4)
-        with self.assertRaises(EmptyListException):
-            iterator = self.list.iterator()       
 
