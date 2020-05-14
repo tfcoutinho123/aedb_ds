@@ -9,9 +9,9 @@ class TestSinglyLinkedList(unittest.TestCase):
     def setUp(self):
         self.list = SinglyLinkedList()
         
-    def add_elements(self, quantity):
+    def add_elements(self, quantity, shift=0):
         for i in range(quantity):
-            self.list.insert_last(f"element {i+1}")
+            self.list.insert_last(f"element {i+1+shift}")
     
     def remove_elements(self, quantity):
         for _ in range(quantity):
@@ -70,6 +70,20 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.assertNotEqual(self.list.get_last(), "element")
         self.list.insert_last("element")
         self.assertEqual(self.list.get_last(), "element")
+
+    def test_insert(self):
+        with self.assertRaises(InvalidPositionException):
+            self.list.insert("element X", 42)
+        self.list.insert("element 1", 0)
+        self.assertEqual(self.list.get_first(), "element 1")
+        self.add_elements(4, shift=1)
+        self.list.insert("element X", 2)
+        self.assertEqual(self.list.get(2), "element X")
+        self.list.insert("last element", self.list.size()-1)
+        self.assertEqual(self.list.get_last(), "las_element")
+        with self.assertRaises(InvalidPositionException):
+            self.list.insert("element bean", 42)
+
     
     def test_remove_first(self):
         with self.assertRaises(EmptyListException):
