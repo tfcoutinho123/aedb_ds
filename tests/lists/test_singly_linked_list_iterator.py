@@ -54,6 +54,24 @@ class TestSinglyLinkedListIterator(unittest.TestCase):
         with self.assertRaises(NoSuchElementException):
             self.iterator.next()
 
-    # def test_rewind(self): pass
+    def test_rewind(self):
+        self.iterator.rewind()
+
+        self.add_elements(5)
+        
+        # Iterate to middle and rewind
+        for _ in range(3):
+            self.iterator.next()
+        self.iterator.rewind()
+        self.assertTrue(self.iterator.has_next())
+        self.assertEqual(self.iterator.next(), "element 1")
+
+        # Iterate to end and rewind
+        while self.iterator.has_next():
+            self.iterator.next()
+        self.iterator.rewind()
+        self.assertTrue(self.iterator.has_next())
+        self.assertEqual(self.iterator.next(), "element 1")
+
 
         
