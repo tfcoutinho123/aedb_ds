@@ -11,6 +11,9 @@ class SinglyLinkedList(List):
     
     def get_head(self):
         return self.head
+    
+    def get_tail(self):
+        return self.tail
 
     # Returns tru e iff thelist contains no elements.
     def is_empty(self):
@@ -99,9 +102,7 @@ class SinglyLinkedList(List):
             self.head = self.head.get_next()
             first_node.set_next(None)
             self.count -= 1
-            return first_node.get_element()
-        if self.count == 1:
-            self.make_empty()       
+            return first_node.get_element()     
 
     # Removes and returns the element at the last position in the list.
     # Throws EmptyListException.
@@ -117,8 +118,6 @@ class SinglyLinkedList(List):
             self.tail = current_node
             self.count -= 1
             return last_node.get_element()
-        elif self.count == 1:
-            self.make_empty()
 
     # Removes and returns the element at the specified position in the list.
     # Range of valid positions: 0, ..., size()-1.
