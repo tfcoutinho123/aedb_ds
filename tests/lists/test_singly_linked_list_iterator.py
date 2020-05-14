@@ -1,42 +1,59 @@
 import unittest
 
 from aed_ds.lists.singly_linked_list import SinglyLinkedList
+from aed_ds.exceptions import NoSuchElementException
 
 class TestSinglyLinkedListIterator(unittest.TestCase):
     def setUp(self):
-        # antes de cada test_
-        pass
+        self.list = SinglyLinkedList()
+        self.iterator = self.list.iterator()
+    
+    def add_elements(self, quantity, shift=0):
+        for i in range(quantity):
+            self.list.insert_last(f"element {i+1+shift}")
+        self.iterator = self.list.iterator()
 
     def test_has_next(self):
-        singly_linked_list = SinglyLinkedList()
-
         # 0 elements
-        iterator = singly_linked_list.iterator()
-        self.assertFalse(iterator.has_next())
+        self.assertFalse(self.iterator.has_next())
 
         # 1 elements
-        singly_linked_list.insert_last("element 1")
-        iterator = singly_linked_list.iterator()
-        self.assertTrue(iterator.has_next())
+        self.add_elements(1)
+        self.assertTrue(self.iterator.has_next())
 
         # 2 elements
-        singly_linked_list.insert_last("element 2")
-        iterator = singly_linked_list.iterator()
-        self.assertTrue(iterator.has_next())
+        self.add_elements(1)
+        self.assertTrue(self.iterator.has_next())
 
         # 5 elements
-        singly_linked_list.insert_last("element 3")
-        singly_linked_list.insert_last("element 4")
-        singly_linked_list.insert_last("element 5")
-        iterator = singly_linked_list.iterator()
-        self.assertTrue(iterator.has_next())
+        self.add_elements(3)
+        self.assertTrue(self.iterator.has_next())
+
+        # iterate to end and test
+        for _ in range(5):
+            self.assertTrue(self.iterator.has_next())
+            self.iterator.next()
+        self.assertFalse(self.iterator.has_next())
 
         # clear list        
-        singly_linked_list.make_empty()
-        iterator = singly_linked_list.iterator()
-        self.assertFalse(iterator.has_next())
+        self.list.make_empty()
+        self.iterator = self.list.iterator()
+        self.assertFalse(self.iterator.has_next())
 
-    # def test_next(self): pass
+    def test_next(self):
+        with self.assertRaises(NoSuchElementException):
+            self.iterator.next()
+        self.add_elements(1)
+        self.assertEqual(self.iterator.next(), "element 1")
+        self.add_elements(4, shift=1)
+        self.assertEqual(self.iterator.next(), "element 1")
+        self.assertEqual(self.iterator.next(), "element 2")
+        self.assertEqual(self.iterator.next(), "element 3")
+        self.assertEqual(self.iterator.next(), "element 4")
+        self.assertEqual(self.iterator.next(), "element 5")
+        with self.assertRaises(NoSuchElementException):
+            self.iterator.next()
 
     # def test_rewind(self): pass
+
         
