@@ -9,29 +9,6 @@ class DoublyLinkedList(SinglyLinkedList):
         self.tail = None
         self.count = 0
 
-    def is_empty(self):
-        return self.count == 0
-
-    # Returns the number of elements in the list.
-    def size(self):
-        return self.count
-
-    # Returns the first element of the list.
-    # Throws EmptyListException.
-    def get_first(self):
-        if self.count == 0:
-            raise EmptyListException() 
-        else:
-            return self.head.get_element()
-
-    # Returns the last element of the list.
-    # Throws EmptyListException.
-    def get_last(self):
-        if self.count == 0:
-            raise EmptyListException() 
-        else:
-            return self.tail.get_element()
-
     # Returns the element at the specified position in the list.
     # Range of valid positions: 0, ..., size()-1.
     def get(self, position):
@@ -45,13 +22,13 @@ class DoublyLinkedList(SinglyLinkedList):
                 for _ in range(self.count - 1, position - 1, -1):
                     current_node = current_node.get_previous()
                 return current_node.get_element()
-      
+    
     # Returns the position in the list of the
     # first occurrence of the specified element,
     # or -1 if the specified element does not
     # occur in the list.
     def find(self, element):
-        SinglyLinkedList.find(self, element)
+        return SinglyLinkedList.find(self, element)
 
     # Inserts the specified element at the first position in the list.
     def insert_first(self, element):
@@ -122,9 +99,7 @@ class DoublyLinkedList(SinglyLinkedList):
             first_node.set_next(None)
             self.head.set_previous(None)
             self.count -= 1
-            return first_node.get_element()
-        if self.count == 1:
-            self.make_empty()       
+            return first_node.get_element()  
 
 
     # Removes and returns the element at the last position in the list.
@@ -139,8 +114,6 @@ class DoublyLinkedList(SinglyLinkedList):
             self.tail.set_next(None)
             self.count -= 1
             return last_node.get_element()
-        elif self.count == 1:
-            self.make_empty()
     
     # Removes and returns the element at the specified position in the list.
     # Range of valid positions: 0, ..., size()-1.
@@ -188,8 +161,4 @@ class DoublyLinkedList(SinglyLinkedList):
 
     # Returns an iterator of the elements in the list (in proper sequence).
     def iterator(self):
-        if self.size() == 0:
-            raise EmptyListException()
-        else:               
-            iterator = DoublyLinkedListIterator(self.head, self.tail)
-            return iterator
+        return DoublyLinkedListIterator(self.head, self.tail)

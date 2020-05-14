@@ -4,7 +4,8 @@ from ..exceptions import NoSuchElementException
 class SinglyLinkedListIterator(Iterator):
     def __init__(self, singly_linked_list):
         self.singly_linked_list = singly_linked_list
-        self.position = self.singly_linked_list.get_head()
+        self.position = None
+        self.rewind()
 
     # Returns true iff the iteration has more elements.
     # In other words, returns true next would return an element rather than throwing an exception.
@@ -23,4 +24,7 @@ class SinglyLinkedListIterator(Iterator):
 
     # Restarts the iteration. After rewind, if the iteration is not empty, next will return the first element in the iteration.
     def rewind(self): 
-        self.position = self.singly_linked_list.get_head()
+        if self.singly_linked_list.is_empty():
+            self.position = None
+        else:
+            self.position = self.singly_linked_list.get_head()

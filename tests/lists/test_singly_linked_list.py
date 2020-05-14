@@ -164,7 +164,7 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.list.make_empty()
         self.add_elements(1)
         self.assertEqual(self.list.remove(0), "element 1")
-
+        
         with self.assertRaises(InvalidPositionException):
             self.list.remove(0)
 

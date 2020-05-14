@@ -39,6 +39,14 @@ class TestSinglyLinkedListIterator(unittest.TestCase):
         self.list.make_empty()
         self.iterator = self.list.iterator()
         self.assertFalse(self.iterator.has_next())
+    
+    def test_iterate_empty_list_after_removal(self):
+        self.add_elements(1)
+        self.list.remove_last()
+        self.iterator = self.list.iterator()
+        self.assertFalse(self.iterator.has_next())
+        with self.assertRaises(NoSuchElementException):
+            self.iterator.next()
 
     def test_next(self):
         with self.assertRaises(NoSuchElementException):
