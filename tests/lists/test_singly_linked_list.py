@@ -3,6 +3,7 @@ import unittest
 from aed_ds.exceptions import EmptyListException, InvalidPositionException
 from aed_ds.lists.singly_linked_list import SinglyLinkedList
 from aed_ds.lists.singly_linked_list_iterator import SinglyLinkedListIterator
+from aed_ds.lists.tad_iterator import Iterator
 
 class TestSinglyLinkedList(unittest.TestCase):
     def setUp(self):
@@ -93,23 +94,12 @@ class TestSinglyLinkedList(unittest.TestCase):
         self.assertEqual(self.list.remove(0), "element 1")
 
     def test_make_empty(self):
+        self.assertTrue(self.list.is_empty())
         self.add_elements(5)
         self.assertFalse(self.list.is_empty())
         self.list.make_empty()
         self.assertTrue(self.list.is_empty())
-        with self.assertRaises(EmptyListException):
-            self.list.get_last()
-        with self.assertRaises(EmptyListException):
-            self.list.get_first()
 
     def test_iterator(self):
-        self.add_elements(5)
-        iterator = self.list.iterator()
-        for i in range(0, self.list.size()):
-            self.assertEqual(self.list.get(i), iterator.next())
-        self.list.remove_first()
-        iterator = self.list.iterator()
-        for i in range(0, self.list.size()):
-            self.assertEqual(self.list.get(i), iterator.next())
-        self.remove_elements(4)
-
+        self.assertIsInstance(self.list.iterator(), Iterator)
+        self.assertIsInstance(self.list.iterator(), SinglyLinkedListIterator)
