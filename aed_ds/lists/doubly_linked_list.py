@@ -14,21 +14,14 @@ class DoublyLinkedList(SinglyLinkedList):
     def get(self, position):
         if self.size() == 0:
             raise EmptyListException()
-        else:
-            if position <= int(self.count/2):
-                SinglyLinkedList.get(self, position)
-            elif position > int(self.count/2):
-                current_node = self.tail
-                for _ in range(self.count - 1, position - 1, -1):
-                    current_node = current_node.get_previous()
-                return current_node.get_element()
-    
-    # Returns the position in the list of the
-    # first occurrence of the specified element,
-    # or -1 if the specified element does not
-    # occur in the list.
-    def find(self, element):
-        return SinglyLinkedList.find(self, element)
+
+        if position <= int(self.count/2):
+            SinglyLinkedList.get(self, position)
+        elif position > int(self.count/2):
+            current_node = self.tail
+            for _ in range(self.count - 1, position - 1, -1):
+                current_node = current_node.get_previous()
+            return current_node.get_element()
 
     # Inserts the specified element at the first position in the list.
     def insert_first(self, element):
@@ -56,50 +49,51 @@ class DoublyLinkedList(SinglyLinkedList):
     def insert(self, element, position):
         if position not in range(0, self.count):
             raise InvalidPositionException()
-        elif not self.count == None:
-            if position == 0:
-                self.insert_first(element)
-            elif position == self.count:
-                self.insert_last(element)
-            elif position <= int(self.count/2):
-                new_node = DoubleListNode(element, None, None)
-                previous_node = self.head
-                current_node = self.head.get_next()
-                for _ in range(0, position-1):
-                    previous_node = previous_node.get_next()
-                    current_node = current_node.get_next()
-                previous_node.set_next(new_node)
-                new_node.set_next(current_node)
-                current_node.set_previous(new_node)
-                new_node.set_previous(previous_node)
-                self.count += 1
-            elif position > int(self.count/2):
-                new_node = DoubleListNode(element, None, None)
-                previous_node = self.tail
-                current_node = self.tail.get_previous()
-                for _ in range(self.tail, position-1. -1):
-                    previous_node = previous_node.get_previous()
-                    current_node = current_node.get_previous()
-                previous_node.set_previous(new_node)
-                new_node.set_previous(current_node)
-                current_node.set_next(new_node)
-                new_node.set_next(previous_node)
-                self.count += 1      
-        else:
+
+        if not self.count == None:
             raise EmptyListException() 
+
+        if position == 0:
+            self.insert_first(element)
+        elif position == self.count:
+            self.insert_last(element)
+        elif position <= int(self.count/2):
+            new_node = DoubleListNode(element, None, None)
+            previous_node = self.head
+            current_node = self.head.get_next()
+            for _ in range(0, position-1):
+                previous_node = previous_node.get_next()
+                current_node = current_node.get_next()
+            previous_node.set_next(new_node)
+            new_node.set_next(current_node)
+            current_node.set_previous(new_node)
+            new_node.set_previous(previous_node)
+            self.count += 1
+        elif position > int(self.count/2):
+            new_node = DoubleListNode(element, None, None)
+            previous_node = self.tail
+            current_node = self.tail.get_previous()
+            for _ in range(self.tail, position-1. -1):
+                previous_node = previous_node.get_previous()
+                current_node = current_node.get_previous()
+            previous_node.set_previous(new_node)
+            new_node.set_previous(current_node)
+            current_node.set_next(new_node)
+            new_node.set_next(previous_node)
+            self.count += 1      
 
     # Removes and returns the element at the first position in the list.
     # Throws EmptyListException.
     def remove_first(self):
         if self.size() == 0:
             raise EmptyListException()
-        if self.count != 0:
-            first_node = self.head
-            self.head = self.head.get_next()
-            first_node.set_next(None)
-            self.head.set_previous(None)
-            self.count -= 1
-            return first_node.get_element()  
+
+        first_node = self.head
+        self.head = self.head.get_next()
+        first_node.set_next(None)
+        self.head.set_previous(None)
+        self.count -= 1
+        return first_node.get_element()  
 
 
     # Removes and returns the element at the last position in the list.
@@ -107,13 +101,13 @@ class DoublyLinkedList(SinglyLinkedList):
     def remove_last(self):
         if self.size() == 0:
             raise EmptyListException()    
-        if self.count != 0:
-            last_node = self.tail
-            self.tail = self.tail.get_previous()
-            last_node.set_previous(None)
-            self.tail.set_next(None)
-            self.count -= 1
-            return last_node.get_element()
+
+        last_node = self.tail
+        self.tail = self.tail.get_previous()
+        last_node.set_previous(None)
+        self.tail.set_next(None)
+        self.count -= 1
+        return last_node.get_element()
     
     # Removes and returns the element at the specified position in the list.
     # Range of valid positions: 0, ..., size()-1.
@@ -154,11 +148,7 @@ class DoublyLinkedList(SinglyLinkedList):
                 selected_node.set_previous(None)
                 self.count -= 1
                 return selected_node.get_element()
-
-    # Removes all elements from the list.
-    def make_empty(self):
-        SinglyLinkedList.make_empty(self)
-
+    
     # Returns an iterator of the elements in the list (in proper sequence).
     def iterator(self):
         return DoublyLinkedListIterator(self.head, self.tail)
