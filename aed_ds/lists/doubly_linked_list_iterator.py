@@ -23,4 +23,8 @@ class DoublyLinkedListIterator(SinglyLinkedListIterator):
             raise NoSuchElementException()   
 
     # Restarts the iteration in the reverse direction. After fullForward, if the iteration is not empty, previous will return the last element in the iteration.
-    def full_forward(self): pass
+    def full_forward(self):
+        if self.linked_list.is_empty():
+            self.position = None
+        else:
+            self.position = self.linked_list.get_tail()
