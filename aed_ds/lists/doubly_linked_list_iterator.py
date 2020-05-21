@@ -10,7 +10,7 @@ class DoublyLinkedListIterator(SinglyLinkedListIterator):
     # Returns true iff the iteration has more elements in the reverse direction.
     # In other words, returns true if previous would return an element rather than throwing an exception.
     def has_previous(self): 
-        return (self.position != None)
+        return self.position != None
     
     # Returns the previous element in the iteration.
     # Throws NoSuchElementException

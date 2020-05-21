@@ -76,19 +76,44 @@ class TestDoublyLinkedListIterator(unittest.TestCase):
             self.iterator.next()
         self.assertFalse(self.iterator.has_previous())
 
-    # def test_previous(self):
-    #     with self.assertRaises(NoSuchElementException):
-    #         self.iterator.previous()
-    #     self.add_elements(5)
-    #     for _ in range(5):
-    #         self.assertTrue(self.iterator.has_next())
-    #         self.iterator.next()
-    #     self.assertEqual(self.iterator.previous(), "element 1")
-    #     self.assertEqual(self.iterator.previous(), "element 2")
-    #     self.assertEqual(self.iterator.previous(), "element 3")
-    #     self.assertEqual(self.iterator.previous(), "element 4")
-    #     self.assertEqual(self.iterator.previous(), "element 5")
-    #     with self.assertRaises(NoSuchElementException):
-    #         self.iterator.previous()  
+    def test_previous(self):
+        with self.assertRaises(NoSuchElementException):
+            self.iterator.previous()
+        self.add_elements(5)
+        for i in range(5):
+            self.assertEqual(self.iterator.next(), f"element {i+1}")
+        for i in range(5):
+            self.assertEqual(self.iterator.previous(), f"element {5-i}")
+        with self.assertRaises(NoSuchElementException):
+            self.iterator.previous() 
+    
+    def test_previous_single_element(self):
+        self.add_elements(1)
+        self.iterator.next()
+        self.iterator.previous()
+    
+    def test_previous_two_elements(self):
+        self.add_elements(2)
+        self.iterator.next()
+        self.iterator.previous()
 
-    # def test_full_forward(self): pass
+    def test_full_forward(self):
+        self.iterator.full_forward()
+
+        self.add_elements(5)
+        self.iterator.full_forward()
+        
+        # Iterate to middle and rewind
+        for _ in range(3):
+            self.iterator.previous()
+        self.iterator.full_forward()
+        self.assertTrue(self.iterator.has_previous())
+        self.assertEqual(self.iterator.previous(), "element 5")
+
+        # Iterate to start and full forward
+        while self.iterator.has_previous():
+            self.iterator.previous()
+        self.iterator.full_forward()
+        self.assertTrue(self.iterator.has_previous())
+        self.assertEqual(self.iterator.previous(), "element 5")
+
