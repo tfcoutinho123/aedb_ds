@@ -41,3 +41,10 @@ def build(c):
 def install(c):
     c.run("pip uninstall -y aed-ds")
     c.run("pip install --find-links=%cd%\dist aed_ds")
+
+@task
+def xinstall(c):
+    c.run("pip uninstall -y aed-ds")
+    c.run("rm -rf dist/ build/ *.egg-info/")
+    c.run("python setup.py bdist_wheel")
+    c.run("pip install --find-links=./dist aed_ds")
