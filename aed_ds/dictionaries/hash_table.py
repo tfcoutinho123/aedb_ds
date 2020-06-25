@@ -21,14 +21,15 @@ class HashTable(Dictionary):
     def is_full(self):
         return self.num_elements == self.array_size
 
-    def get(self, k):          
+    def get(self, k):
+        if not self.has_key(k):
+             raise NoSuchElementException()         
         idx = self.hash_function(k)
         it = self.table[idx].iterator()
         while it.has_next():
             current_item = it.next()
             if current_item.get_key() == k:
-                return current_item.get_value()
-        raise NoSuchElementException()
+                return current_item.get_value()       
         
 
     def insert(self, k, v):
@@ -39,67 +40,68 @@ class HashTable(Dictionary):
         self.table[idx].insert_last(item)
         self.num_elements += 1
 
-    def update(self, k, v):            
+    def update(self, k, v):
+        if not self.has_key(k):
+            raise NoSuchElementException()            
         idx = self.hash_function(k)
         it = self.table[idx].iterator()
         while it.has_next():
             current_item = it.next()
             if current_item.get_key() == k:
                 current_item.set_value(v)
-        raise NoSuchElementException()
+                break
+        
 
     def remove(self, k):
-        idx = self.hash_function
-        it = self.table[idx].iterator
-        while it.has_next():
-            current_item = it.next()
-            if current_item.get_key() == k:
-                pass                
-        raise NoSuchElementException()
-
-    def keys(self):
-        result = SinglyLinkedList()
-        for i in range(self.array_size-1):
-            #idx = self.hash_function(i)
-            it = self.table[i].iterator()
-            while it.has_next():
-                current_item = it.next()
-                result.insert_last(current_item.get_key())
-        return result
-
-    def values(self):
-        result = SinglyLinkedList()
-        for i in range(self.array_size-1):
-            #idx = self.hash_function(i)
-            it = self.table[i].iterator()
-            while it.has_next():
-                current_item = it.next()
-                result.insert_last(current_item.get_value())    
-        return result
-
-    def items(self):
-        result = SinglyLinkedList()
-        for i in range(self.array_size-1):
-            #idx = self.hash_function(i)
-            it = self.table[i].iterator()
-            while it.has_next():
-                current_item = it.next()
-                result.insert_last(current_item)
-        return result
-
-    def hash_function(self, k):
-        # result = 0
-        # a = 101
-        # for c in k:
-        #     result = (result * a + ord(c)) % self.array_size
-        # return result
-        return sum([ord(c) for c in k]) % self.size()
-
-    def has_key(self, k):
+        if not self.has_key(k):
+            raise NoSuchElementException()
         idx = self.hash_function(k)
         it = self.table[idx].iterator()
         while it.has_next():
             current_item = it.next()
             if current_item.get_key() == k:
-                return True
+                    self.table[idx].remove(self.table[idx].find(current_item))
+                    self.num_elements -= 1
+                    return current_item.get_value()               
+        
+
+    def keys(self):
+        result = SinglyLinkedList()
+        for i in range(self.array_size):
+            for _ in range(self.table[i].size()):
+                result.insert_last(self.table[i].iterator().next().get_key())
+        return result
+
+    def values(self):
+        result = SinglyLinkedList()
+        for i in range(self.array_size):
+            for _ in range(self.table[i].size()):
+                result.insert_last(self.table[i].iterator().next().get_value())
+        return result
+
+    def items(self):
+        result = SinglyLinkedList()
+        for i in range(self.array_size):
+            for _ in range(self.table[i].size()):
+                new_node = SinglyLinkedList()
+                new_node.insert_last(self.table[i].iterator().next().get_key())
+                new_node.insert_last(self.table[i].iterator().next().get_value())
+                result.insert_last(new_node)
+        return result
+
+    def hash_function(self, k):
+        return sum([ord(c) for c in k]) % self.array_size
+
+    def has_key(self, k):
+        for i in range(self.array_size):
+            for _ in range(self.table[i].size()):
+                if self.table[i].iterator().next().get_key() == k:
+                    return True
         return False
+        # idx = self.hash_function(k)
+        # it = self.table[idx].iterator()
+        # while it.has_next():
+        #     current_item = it.next()
+        #     if current_item.get_key() == k:
+        #         return True
+        # return False
