@@ -93,12 +93,12 @@ class HashTable(Dictionary):
         return sum([ord(c) for c in k]) % self.array_size
 
     def has_key(self, k):
-        for i in range(self.array_size):
-            for _ in range(self.table[i].size()):
-                if self.table[i].iterator().next().get_key() == k:
+        idx = self.hash_function(k)
+        for idx in range(self.array_size):
+            for _ in range(self.table[idx].size()):
+                if self.table[idx].iterator().next().get_key() == k:
                     return True
         return False
-        # idx = self.hash_function(k)
         # it = self.table[idx].iterator()
         # while it.has_next():
         #     current_item = it.next()
